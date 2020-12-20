@@ -2,8 +2,11 @@
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "game_object.h"
+#include "paddle_object.h"
+
 
 SpriteRenderer* Renderer;
+PaddleObject* Paddle;
 
 Game::Game(unsigned int width, unsigned int height) :
 	Width(width), Height(height), Keys(), Level()
@@ -11,6 +14,7 @@ Game::Game(unsigned int width, unsigned int height) :
 
 Game::~Game() {
     delete Renderer;
+    delete Paddle;
 }
 
 void Game::Init() {
@@ -26,11 +30,18 @@ void Game::Init() {
     ResourceManager::LoadTexture("textures/background.jpg", false, "background");
     ResourceManager::LoadTexture("textures/block.png", false, "block");
     ResourceManager::LoadTexture("textures/block_solid.png", false, "block_solid");
+    ResourceManager::LoadTexture("textures/paddle.png", true, "paddle");
 
     Level.load("levels/level0.txt", this->Width, this->Height / 2);
+
+    glm::vec2 PaddlePos = glm::vec2((this->Width - PADDLE_SIZE.x)/2.0f, this->Height - PADDLE_SIZE.y);
+    Paddle = new PaddleObject(PaddlePos, PADDLE_SIZE, ResourceManager::GetTexture("paddle"));
+    Paddle->Velocity = PADDLE_VELOCITY;
 }
 
-void Game::Update(float dt) { }
+void Game::Update(float dt) { 
+    Paddle->Move(dt, this->Width, this->Height);
+}
 
 void Game::ProcessInput(float dt) { }
 
@@ -40,4 +51,7 @@ void Game::Render() {
 
     // draw level
     this->Level.Draw(*Renderer);
+
+    // draw paddle
+    Paddle->Draw(*Renderer);
 }
