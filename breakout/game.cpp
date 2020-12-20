@@ -44,11 +44,33 @@ void Game::Init() {
 }
 
 void Game::Update(float dt) { 
-    Paddle->Move(dt, this->Width, this->Height);
-    Ball->Move(dt, this->Width, this->Height);
+
 }
 
-void Game::ProcessInput(float dt) { }
+void Game::ProcessInput(float dt) {
+    // move playerboard
+    if (this->Keys[GLFW_KEY_A])
+    {
+        if (Paddle->Position.x >= 0.0f)
+        {
+            Paddle->Position.x -= Paddle->Velocity.x*dt;
+            if (Ball->Stuck)
+                Ball->Position.x -= Paddle->Velocity.x * dt;
+        }
+    }
+    if (this->Keys[GLFW_KEY_D])
+    {
+        if (Paddle->Position.x <= this->Width - Paddle->Size.x)
+        {
+            Paddle->Position.x += Paddle->Velocity.x * dt;
+            if (Ball->Stuck)
+                Ball->Position.x += Paddle->Velocity.x * dt;
+        }
+    }
+    if (this->Keys[GLFW_KEY_SPACE]) {
+        Ball->Stuck = false;
+    }
+}
 
 void Game::Render() {
     // draw background
