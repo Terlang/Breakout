@@ -11,8 +11,11 @@ class BrickObject : public GameObject {
 public:
 	bool isDestroyed;
 	bool isSolid;
+
 	BrickObject();
 	BrickObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color = glm::vec3(1.0f), float rotation = 0.0f, bool solid = true);
+
+	void Draw(SpriteRenderer& Renderer) override;
 };
 
 

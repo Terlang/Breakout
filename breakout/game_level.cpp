@@ -36,14 +36,12 @@ int GameLevel::load(const char* path, unsigned int levelWidth, unsigned int leve
 			else if (table[y][x] == 1) {
 				// solid
 				glm::vec3 color = glm::vec3(0.8f, 0.8f, 0.7f);
-				BrickObject obj(pos, size, ResourceManager::GetTexture("block_solid"), color);
-				obj.isSolid = true;
-				this->bricks.push_back(obj);
+				this->bricks.push_back(BrickObject(pos, size, ResourceManager::GetTexture("block_solid"), color, 0.0f, true));
 			}
 			else if (table[y][x] == 2) {
 				// non-solid
 				glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
-				this->bricks.push_back(BrickObject(pos, size, ResourceManager::GetTexture("block"), color));
+				this->bricks.push_back(BrickObject(pos, size, ResourceManager::GetTexture("block"), color, 0.0f, false));
 			}
 		}
 	}

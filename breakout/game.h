@@ -22,6 +22,8 @@ enum Direction {
 	RIGHT
 };
 
+typedef std::tuple<bool, Direction, glm::vec2> Collision;
+
 class Game {
 public:
 	bool Keys[1024];
@@ -34,6 +36,10 @@ public:
 	void ProcessInput(float dt);
 	void Update(float dt);
 	void Render();
+
+private:
+	void DoCollisions();
+	void Reset();
 };
 
 #endif
